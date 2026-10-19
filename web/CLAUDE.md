@@ -68,3 +68,4 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - 라우터·상태관리 라이브러리 추가(아이콘은 lucide-react만), 채팅 UI
 - 실명이나 토큰 원문 표시
 - 화면 컴포넌트 안에서 `fetch` 직접 호출(데이터는 `client.ts`로만)
+- 진행 중인 버튼을 `disabled`로 막기(키보드 초점이 빠진다). `Button`의 `busy`(aria-disabled·aria-busy, 초점 유지)를 쓰고, `disabled`는 지금 할 수 없는 일(입력이 덜 됨)에만 쓴다. 둘을 같이 주지 않는다
