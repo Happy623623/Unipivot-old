@@ -13,6 +13,7 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - `src/lib/useDocuments.ts` 문서함 목록(더 보기). 받기는 `components/DownloadButton.tsx` → `downloadDocument`(누를 때마다 5분짜리 주소를 새로 받는다) → `lib/saveFile.ts`의 `fetchDownload`(그 주소에서 fetch로 받아 원래 이름으로 저장, 저장소가 거절하면 `DOWNLOAD_FAILED` 안내)다. 받기 주소는 화면에 들고 있지 않는다
 - `src/lib/useNotifications.ts` 알림함 목록·읽음 처리. 헤더 패널(`NotificationPanel`)과 전체 목록(`screens/Notifications.tsx`)이 각각 하나씩 쓰고, 배지 숫자는 `AppShell`의 `setUnreadNotifications`로 올린다
 - `src/api/client.ts` 화면이 쓰는 데이터 함수. 계정 함수는 `accountClient.ts`, LMS 함수는 `lmsClient.ts`, 문서함 함수는 `documentsClient.ts`에 두고 client.ts가 다시 내보낸다
+- `src/components/PosterOriginal.tsx` 내가 올린 포스터의 원문 보기 창. 열 때 `getPosterUrl`(`posterClient.ts`)로 5분짜리 주소를 받고 닫으면 버린다. 사진은 창 안에, PDF는 새 탭 링크로 연다
 - `src/api/http.ts` 실제 API 호출과 오류 도구(`apiFetch`, `errorMessage`, `fieldErrors`, `waitForRun`), `src/api/mockClient.ts` 목 모드 구현
 - `src/mocks/` 목데이터, `src/dev/` 상태 미리보기(목 모드에서만 보인다)
 - `src/types/api.ts` API 명세와 1:1인 타입. LMS·강의자료 타입은 `lms.ts`에 두고 api.ts가 다시 내보낸다
