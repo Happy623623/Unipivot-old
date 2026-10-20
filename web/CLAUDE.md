@@ -14,6 +14,7 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - `src/lib/useNotifications.ts` 알림함 목록·읽음 처리. 헤더 패널(`NotificationPanel`)과 전체 목록(`screens/Notifications.tsx`)이 각각 하나씩 쓰고, 배지 숫자는 `AppShell`의 `setUnreadNotifications`로 올린다
 - `src/lib/useLoadMoreFocus.ts` 두 목록의 "더 보기" 뒤 초점과 화면 읽기 안내. 마지막 쪽이 와서 버튼이 사라지면 새로 온 줄 중 화면 첫 줄(`data-row`)로, 422로 처음부터 다시 받으면(`generation`) 첫 줄로 초점을 옮긴다. 누를 때 초점이 있었고 지금 `<body>`일 때만 옮긴다
 - `src/api/client.ts` 화면이 쓰는 데이터 함수. 계정 함수는 `accountClient.ts`, LMS 함수는 `lmsClient.ts`, 문서함 함수는 `documentsClient.ts`에 두고 client.ts가 다시 내보낸다
+- `src/components/Modal.tsx` 공용 창. 초점은 `lib/useDialogFocus.ts`가 맡는다 — 열리면 창으로, Tab은 창 안에서 돌고, Esc로 닫히며, 닫히면 연 버튼으로 돌아간다. 창을 직접 만들지 말고 이것을 쓴다
 - `src/components/PosterOriginal.tsx` 내가 올린 포스터의 원문 보기 창. 열 때 `getPosterUrl`(`posterClient.ts`)로 5분짜리 주소를 받고 닫으면 버린다. 사진은 창 안에, PDF는 새 탭 링크로 연다
 - `src/api/http.ts` 실제 API 호출과 오류 도구(`apiFetch`, `errorMessage`, `fieldErrors`, `waitForRun`), `src/api/mockClient.ts` 목 모드 구현
 - `src/mocks/` 목데이터, `src/dev/` 상태 미리보기(목 모드에서만 보인다)
