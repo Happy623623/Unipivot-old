@@ -15,7 +15,7 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - `src/lib/useLoadMoreFocus.ts` 두 목록의 "더 보기" 뒤 초점과 화면 읽기 안내. 마지막 쪽이 와서 버튼이 사라지면 새로 온 줄 중 화면 첫 줄(`data-row`)로, 422로 처음부터 다시 받으면(`generation`) 첫 줄로 초점을 옮긴다. 누를 때 초점이 있었고 지금 `<body>`일 때만 옮긴다
 - `src/api/client.ts` 화면이 쓰는 데이터 함수. 계정 함수는 `accountClient.ts`, LMS 함수는 `lmsClient.ts`, 문서함 함수는 `documentsClient.ts`에 두고 client.ts가 다시 내보낸다
 - `src/lib/useSessionWatch.ts` 다른 탭과 로그인 맞추기. `AppFrame`·온보딩이 쓴다 — 다른 탭에서 로그아웃·탈퇴하거나 로그인이 끝나면(SIGNED_OUT) 바로 로그인 화면으로, 다시 보일 때 세션이 없으면 로그인 화면·다른 계정이면 홈으로 간다(`location.replace`). 로그아웃·탈퇴하는 쪽은 세션을 지우기 직전에 `announceLeaving`으로 이유를 알린다(로그인 화면 안내가 이유를 따른다)
-- `src/components/Modal.tsx` 공용 창. 초점은 `lib/useDialogFocus.ts`가 맡는다 — 열리면 창으로, Tab은 창 안에서 돌고, Esc로 닫히며, 닫히면 연 버튼으로 돌아간다. 창을 직접 만들지 말고 이것을 쓴다. 옆에서 나오는 헤더 알림 패널(`NotificationPanel`)도 같은 훅을 쓴다
+- `src/components/Modal.tsx` 공용 창. 초점은 `lib/useDialogFocus.ts`가 맡는다 — 열리면 창으로, Tab은 창 안에서 돌고, Esc로 닫히며, 닫히면 연 버튼으로 돌아간다. 창을 직접 만들지 말고 이것을 쓴다. 창 안의 일(저장·탈퇴 등)이 진행 중이면 `busy`를 넘긴다 — 끝나거나 15초가 지날 때까지 Esc·닫기·덮개·취소로 닫히지 않는다(`lib/useCloseLock.ts`, 닫힌 뒤 실패하면 오류가 안 보여서). 창 안의 취소는 `ModalCancelButton`을 쓴다. 옆에서 나오는 헤더 알림 패널(`NotificationPanel`)도 같은 훅을 쓴다
 - `src/components/PosterOriginal.tsx` 내가 올린 포스터의 원문 보기 창. 열 때 `getPosterUrl`(`posterClient.ts`)로 5분짜리 주소를 받고 닫으면 버린다. 사진은 창 안에, PDF는 새 탭 링크로 연다
 - `src/api/http.ts` 실제 API 호출과 오류 도구(`apiFetch`, `errorMessage`, `fieldErrors`, `waitForRun`), `src/api/mockClient.ts` 목 모드 구현
 - `src/mocks/` 목데이터, `src/dev/` 상태 미리보기(목 모드에서만 보인다)
@@ -72,4 +72,4 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - 라우터·상태관리 라이브러리 추가(아이콘은 lucide-react만), 채팅 UI
 - 실명이나 토큰 원문 표시
 - 화면 컴포넌트 안에서 `fetch` 직접 호출(데이터는 `client.ts`로만)
-- 진행 중인 버튼을 `disabled`로 막기(키보드 초점이 빠진다). `Button`·`Toggle`의 `busy`(aria-disabled·aria-busy, 초점 유지)를 쓰고, `disabled`는 지금 할 수 없는 일(입력이 덜 됨)에만 쓴다. 둘을 같이 주지 않는다. 직접 만든 버튼·체크박스·스위치도 `aria-disabled`로 알리고 누름(체크박스는 `onChange`)을 무시한다. 누르면 할 일이 없어지는 버튼("모두 읽음")도 같다
+- 진행 중인 버튼을 `disabled`로 막기(키보드 초점이 빠진다). `Button`·`Toggle`의 `busy`(aria-disabled·aria-busy, 초점 유지)를 쓰고(다른 일이 진행 중이라 못 누르는 버튼은 `Button`의 `inactive` — aria-busy 없이), `disabled`는 지금 할 수 없는 일(입력이 덜 됨)에만 쓴다. 둘을 같이 주지 않는다. 직접 만든 버튼·체크박스·스위치도 `aria-disabled`로 알리고 누름(체크박스는 `onChange`)을 무시한다. 누르면 할 일이 없어지는 버튼("모두 읽음")도 같다
