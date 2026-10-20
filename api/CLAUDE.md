@@ -32,6 +32,7 @@
 - 단위 테스트는 DB·네트워크 없이 돈다. 저장소는 `tests/fakes.py`의 가짜로 바꿔 끼우고, LLM은 가짜 응답으로 대체한다.
 - `@pytest.mark.db` 테스트는 `DATABASE_URL`이 있을 때만 돈다. CI는 Postgres 컨테이너에 마이그레이션을 적용해서 돌린다. 실제 Supabase DB로는 돌리지 않는다.
 - 새 엔드포인트마다 성공, 인증 실패, 대표 에러를 하나 이상 테스트한다.
+- 날짜를 박은 시험 자료가 실제 시계(DB `now()` 포함)와 비교되면 그날이 지나 깨진다. 시계를 고정하거나(`app.clock.current_time` 덮어쓰기), 오늘(KST) 기준 상대 날짜로 만든다. 날짜에 기대는 시험을 고쳤으면 시계를 앞으로 돌려(예: libfaketime으로 pytest와 Postgres를 같이) 한 번 돌려 본다.
 - Supabase 트랜잭션 풀러(6543)에서도 동작하도록 `prepare_threshold=None`을 유지한다.
 
 ## DB 변경
