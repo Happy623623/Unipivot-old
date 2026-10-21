@@ -11,7 +11,7 @@ Figma Make 시안을 옮긴 코드다. 아래 화면·데이터 규칙을 지키
 - `src/lib/routes.ts` Route ↔ URL 변환, `src/components/AppFrame.tsx` 내 정보·동의 확인과 헤더 배지 숫자
 - `src/lib/push.ts` 브라우저 푸시(권한·구독, 목 모드 흉내), `src/lib/usePushSubscription.ts` 켜기·끄기 상태와 앱 열 때 되올림, `public/sw.js` 서비스 워커(번들을 타지 않는다)
 - `src/lib/useDocuments.ts` 문서함 목록(더 보기). 받기는 `components/DownloadButton.tsx` → `downloadDocument`(누를 때마다 5분짜리 주소를 새로 받는다) → `lib/saveFile.ts`의 `fetchDownload`(그 주소에서 fetch로 받아 원래 이름으로 저장, 저장소가 거절하면 `DOWNLOAD_FAILED` 안내)다. 받기 주소는 화면에 들고 있지 않는다
-- `src/lib/useNotifications.ts` 알림함 목록·읽음 처리. 헤더 패널(`NotificationPanel`)과 전체 목록(`screens/Notifications.tsx`)이 각각 하나씩 쓰고, 배지 숫자는 `AppShell`의 `setUnreadNotifications`로 올린다. 한쪽에서 저장한 읽음 처리는 같은 탭의 다른 쪽 목록에도 바로 입힌다(그때 받던 중인 쪽이 늦게 와도 덮지 않는다)
+- `src/lib/useNotifications.ts` 알림함 목록·읽음 처리. 헤더 패널(`NotificationPanel`)과 전체 목록(`screens/Notifications.tsx`)이 각각 하나씩 쓰고, 배지 숫자는 `AppShell`의 `setUnreadNotifications`로 올린다. 한쪽에서 저장한 읽음 처리는 같은 탭의 다른 쪽 목록과 같은 브라우저의 다른 탭에도 바로 입힌다(그때 받던 중인 쪽이 늦게 와도 덮지 않는다. 알리기는 `lib/savedReads.ts` — 다른 탭은 BroadcastChannel, 배지는 `AppFrame`도 듣는다)
 - `src/lib/useLoadMoreFocus.ts` 두 목록의 "더 보기" 뒤 초점과 화면 읽기 안내. 마지막 쪽이 와서 버튼이 사라지면 새로 온 줄 중 화면 첫 줄(`data-row`)로, 422로 처음부터 다시 받으면(`generation`) 첫 줄로 초점을 옮긴다. 누를 때 초점이 있었고 지금 `<body>`일 때만 옮긴다
 - `src/api/client.ts` 화면이 쓰는 데이터 함수. 계정 함수는 `accountClient.ts`, LMS 함수는 `lmsClient.ts`, 문서함 함수는 `documentsClient.ts`에 두고 client.ts가 다시 내보낸다
 - `src/lib/useSessionWatch.ts` 다른 탭과 로그인 맞추기. `AppFrame`·온보딩이 쓴다 — 다른 탭에서 로그아웃·탈퇴하거나 로그인이 끝나면(SIGNED_OUT) 바로 로그인 화면으로, 다시 보일 때 세션이 없으면 로그인 화면·다른 계정이면 홈으로 간다(`location.replace`). 로그아웃·탈퇴하는 쪽은 세션을 지우기 직전에 `announceLeaving`으로 이유를 알린다(로그인 화면 안내가 이유를 따른다)
