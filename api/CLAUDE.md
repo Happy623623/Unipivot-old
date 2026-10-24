@@ -10,6 +10,7 @@
 - `app/crypto.py` 토큰 암호화, `app/agent_log.py` 에이전트 실행 로깅
 - `app/schemas/` 요청·응답 모델, `app/repositories/` SQL, `app/routers/` 엔드포인트
 - `app/services/` 판정 엔진·수집·요건 추출 같은 에이전트 로직(추가 예정)
+- `app/deploy/` Cloud Run 배포 명령(`python -m app.deploy.cloudrun`, docs/배포_절차.md). 설정(`app/config.py`)에 필드를 더하면 `app/deploy/plan.py`의 분류(그대로 넘김·비밀값·배포에서 정함·기본값)에도 넣는다 — 시험이 잡는다
 
 ## 규칙
 
